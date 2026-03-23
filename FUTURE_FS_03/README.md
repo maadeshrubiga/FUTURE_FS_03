@@ -56,42 +56,7 @@ Rubi Cafe is an artisan café in **NGGO Colony, Erode, Tamil Nadu**, celebrating
 | **Tablet** | ≤1024px | 2-col layouts |
 | **Desktop** | >1024px | Full 3-col grids |
 
-## 🛠 Development & Customization
-### Edit Content
-```
-<!-- Menu items (search for "menu-item-name") -->
-<div class="menu-item-name">Your Dish Name</div>
-<div class="menu-item-price">₹XXX</div>
 
-<!-- Colors (CSS root variables) -->
-:root {
-  --caramel: #C4813A;  /* Primary accent */
-  --espresso: #2C1A0E; /* Dark brown */
-}
-```
 
-### Images
-Replace Unsplash/Pexels URLs in `.gallery-bg` or hero `img src`.
 
-### Form Data
-Receipt auto-generates from form inputs. Customize deposit in JS:
-```js
-depositPerGuest: 100,  // ₹/guest
-```
-
-## 📸 Suggested Screenshots
-Add to `/screenshots/` folder:
-```
-hero.png        # Landing section
-menu-drinks.png # Active tab
-form-success.png # Modal
-receipt-print.png # Printed view
-mobile.png      # Responsive
-```
-
-## 📄 License
-MIT License — Free for personal/commercial use. Made with ☕ for Erode food lovers.
-
----
-
-**👨‍💻 Built by BLACKBOXAI** • **NGGO Colony, Erode** • **rubicafe@gmail.com**
+**NGGO Colony, Erode** • **rubicafe@gmail.com**
