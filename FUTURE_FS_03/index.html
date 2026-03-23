@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubi Cafe — Artisan Café, Erode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & ROOT ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F7F0E3;
+      --warm-white: #FDF8F0;
+      --ink: #1A1208;
+      --espresso: #2C1A0E;
+      --caramel: #C4813A;
+      --gold: #D4A853;
+      --terracotta: #C4572A;
+      --sage: #6B7B5E;
+      --dust: #E8DDD0;
+      --muted: #8B7355;
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-accent: 'Cormorant Garamond', serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--warm-white);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== CUSTOM SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--caramel); border-radius: 3px; }
+
+    /* ===== NOISE TEXTURE OVERLAY ===== */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(247, 240, 227, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(196,129,58,0.2);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--espresso);
+    }
+    .nav-logo span { color: var(--caramel); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--espresso);
+      opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--caramel);
+      color: white !important;
+      padding: 0.55rem 1.4rem;
+      border-radius: 2px;
+      opacity: 1 !important;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--espresso) !important; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 6rem 4rem;
+      background: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--espresso);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--caramel);
+      display: block;
+    }
+    .hero-sub {
+      font-family: var(--font-accent);
+      font-size: 1.25rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+    .btn-primary {
+      background: var(--espresso);
+      color: var(--cream);
+      padding: 0.9rem 2.2rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 2px solid var(--espresso);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--espresso);
+    }
+    .btn-ghost {
+      color: var(--espresso);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.25s;
+    }
+    .btn-ghost:hover { gap: 0.9rem; }
+    .btn-ghost::after { content: '→'; }
+    .hero-badge {
+      position: absolute;
+      bottom: 3rem; left: 4rem;
+      font-family: var(--font-accent);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 0.9s 1s forwards;
+    }
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--espresso);
+    }
+    .hero-img-container {
+      position: absolute; inset: 0;
+      opacity: 0;
+      animation: fadeIn 1.4s 0.3s forwards;
+    }
+    .hero-img-container img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      mix-blend-mode: luminosity;
+      opacity: 0.55;
+    }
+    .hero-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(196,129,58,0.3), rgba(44,26,14,0.6));
+    }
+    .hero-float-tag {
+      position: absolute;
+      bottom: 4rem; right: 3rem;
+      background: var(--caramel);
+      color: white;
+      padding: 1.2rem 1.5rem;
+      font-family: var(--font-display);
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.1s forwards;
+    }
+    .hero-float-tag .big { font-size: 2rem; font-weight: 900; display: block; }
+    .hero-float-tag .small { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; font-family: var(--font-body); }
+
+    /* ===== MARQUEE ===== */
+    .marquee-section {
+      background: var(--espresso);
+      color: var(--gold);
+      padding: 1rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 25s linear infinite;
+    }
+    .marquee-item {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.05rem;
+      padding: 0 2.5rem;
+      letter-spacing: 0.05em;
+    }
+    .marquee-dot { color: var(--terracotta); }
+
+    /* ===== ABOUT ===== */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 80vh;
+    }
+    .about-visual {
+      background: var(--dust);
+      position: relative;
+      overflow: hidden;
+      min-height: 500px;
+    }
+    .about-visual-inner {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, var(--caramel) 0%, var(--espresso) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-visual-pattern {
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent, transparent 24px,
+        rgba(255,255,255,0.03) 24px, rgba(255,255,255,0.03) 25px
+      );
+    }
+    .about-icon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 300px;
+    }
+    .about-icon-card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: background 0.3s;
+    }
+    .about-icon-card:hover { background: rgba(255,255,255,0.12); }
+    .about-icon-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .about-icon-card .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(247,240,227,0.7);
+      font-family: var(--font-body);
+    }
+    .about-content {
+      background: var(--warm-white);
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--caramel);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--espresso);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--caramel); }
+    .section-body {
+      font-family: var(--font-accent);
+      font-size: 1.1rem;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      max-width: 440px;
+    }
+    .about-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--dust);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--caramel);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ===== MENU ===== */
+    .menu-section {
+      background: var(--espresso);
+      padding: 7rem 4rem;
+    }
+    .menu-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .menu-header .section-label { color: var(--gold); }
+    .menu-header .section-title { color: var(--cream); }
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+    }
+    .menu-tab {
+      background: none;
+      border: 1px solid rgba(212,168,83,0.3);
+      color: rgba(247,240,227,0.5);
+      padding: 0.6rem 1.8rem;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .menu-tab.active, .menu-tab:hover {
+      background: var(--gold);
+      color: var(--espresso);
+      border-color: var(--gold);
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: contents; }
+    .menu-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem;
+      transition: background 0.3s, transform 0.3s;
+      cursor: default;
+    }
+    .menu-item:hover {
+      background: rgba(196,129,58,0.12);
+      transform: translateY(-3px);
+    }
+    .menu-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.7rem;
+    }
+    .menu-item-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+    .menu-item-price {
+      font-family: var(--font-accent);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--gold);
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+    .menu-item-desc {
+      font-size: 0.82rem;
+      color: rgba(247,240,227,0.45);
+      line-height: 1.6;
+    }
+    .menu-item-tag {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      background: rgba(196,87,42,0.25);
+      color: var(--terracotta);
+      border-radius: 1px;
+    }
+    .menu-item-tag.veg {
+      background: rgba(107,123,94,0.25);
+      color: var(--sage);
+    }
+
+    /* ===== GALLERY ===== */
+    .gallery-section { padding: 7rem 4rem; background: var(--cream); }
+    .gallery-header { text-align: center; margin-bottom: 3.5rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 260px 260px;
+      gap: 10px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .gallery-cell {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+    .gallery-cell:first-child { grid-row: 1 / 3; }
+    .gallery-inner {
+      position: absolute; inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .gallery-cell:hover .gallery-inner { transform: scale(1.07); }
+    .gallery-bg {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,18,8,0.7), transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-cell:hover .gallery-overlay { opacity: 1; }
+    .gallery-label {
+      position: absolute;
+      bottom: 1.2rem; left: 1.2rem;
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1rem;
+      color: white;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s 0.05s;
+    }
+    .gallery-cell:hover .gallery-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Gallery placeholder colors */
+    .g1 { background: linear-gradient(135deg, #3d2510, #6b3d1a); }
+    .g2 { background: linear-gradient(135deg, #5c3920, #8a5c30); }
+    .g3 { background: linear-gradient(135deg, #7a4a25, #c4813a); }
+    .g4 { background: linear-gradient(135deg, #4a2d10, #c4572a); }
+    .g5 { background: linear-gradient(135deg, #6b7b5e, #4a5940); }
+    .gallery-cell .coffee-art {
+      font-size: 5rem;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials { background: var(--warm-white); padding: 7rem 4rem; }
+    .testimonials-header { text-align: center; margin-bottom: 4rem; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .testimonial-card {
+      background: var(--cream);
+      padding: 2.5rem;
+      border-left: 3px solid var(--caramel);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(196,129,58,0.12);
+    }
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+    .testimonial-text {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .testimonial-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--caramel);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      color: white;
+      font-size: 0.9rem;
+    }
+    .testimonial-name {
+      font-weight: 500;
+      font-size: 0.88rem;
+      color: var(--espresso);
+    }
+    .testimonial-role { font-size: 0.75rem; color: var(--muted); }
+
+    /* ===== VISIT / HOURS ===== */
+    .visit-section {
+      background: var(--espresso);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .visit-content {
+      padding: 6rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .visit-content .section-label { color: var(--gold); }
+    .visit-content .section-title { color: var(--cream); }
+    .hours-list { margin-top: 2rem; }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      font-size: 0.9rem;
+    }
+    .hours-day { color: rgba(247,240,227,0.5); letter-spacing: 0.05em; }
+    .hours-time { color: var(--gold); font-family: var(--font-accent); font-style: italic; font-size: 1rem; }
+    .hours-closed { color: var(--terracotta); font-style: italic; }
+    .visit-address {
+      margin-top: 2.5rem;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .visit-address p {
+      color: rgba(247,240,227,0.65);
+      line-height: 1.8;
+      font-size: 0.92rem;
+    }
+    .visit-address strong {
+      display: block;
+      color: var(--cream);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .visit-map {
+      position: relative;
+      overflow: hidden;
+      background: #1a1208;
+    }
+    .map-placeholder {
+      position: absolute; inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #2c1a0e 0%, #1a1208 100%);
+    }
+    .map-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(212,168,83,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,168,83,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .map-pin {
+      font-size: 3.5rem;
+      animation: bounce 2s ease-in-out infinite;
+      position: relative; z-index: 2;
+    }
+    .map-address-tag {
+      background: var(--caramel);
+      color: white;
+      padding: 1rem 1.8rem;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      text-align: center;
+      position: relative; z-index: 2;
+      max-width: 240px;
+    }
+    .map-address-tag strong { display: block; font-family: var(--font-display); font-size: 1rem; }
+
+    /* ===== CONTACT ===== */
+    .contact-section { background: var(--cream); padding: 7rem 4rem; }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner .section-title { margin-bottom: 0.5rem; }
+    .contact-sub {
+      font-family: var(--font-accent);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .form-input, .form-textarea {
+      background: var(--warm-white);
+      border: 1px solid var(--dust);
+      padding: 0.85rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--espresso);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--caramel); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      background: var(--caramel);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      align-self: flex-start;
+      transition: background 0.25s;
+    }
+    .form-submit:hover { background: var(--espresso); }
+    .contact-alt {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--dust);
+    }
+    .contact-link { text-align: center; }
+    .contact-link-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .contact-link-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+    .contact-link-value { font-size: 0.9rem; color: var(--espresso); font-weight: 500; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--ink);
+      padding: 4rem 4rem 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand .nav-logo { font-size: 1.6rem; margin-bottom: 1rem; color: var(--cream); }
+    .footer-brand p {
+      font-family: var(--font-accent);
+      font-style: italic;
+      color: rgba(247,240,227,0.4);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .footer-col-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a { color: rgba(247,240,227,0.45); font-size: 0.88rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-social {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+    }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(247,240,227,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      color: rgba(247,240,227,0.45);
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .social-btn:hover { background: var(--caramel); border-color: var(--caramel); color: white; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p { font-size: 0.78rem; color: rgba(247,240,227,0.25); }
+
+    /* PRINT STYLES FOR RECEIPT */
+    @media print {
+      body * { visibility: hidden; }
+      #receiptModal, #receiptModal * { visibility: visible; }
+      #receiptModal { 
+        position: absolute !important; left: 0 !important; top: 0 !important; 
+        padding: 0 !important; background: white !important; 
+        box-shadow: none !important; display: flex !important;
+      }
+      #receiptContent { 
+        max-width: none !important; width: 100% !important; 
+        font-size: 12pt !important; box-shadow: none !important;
+        padding: 1in !important;
+      }
+      #receiptModal button, .hamburger, nav { display: none !important; }
+      @page { margin: 0.5in; size: A4 portrait; }
+    }
+
+    /* Receipt & Success modal screen styles */
+    #receiptModal, #successModal {
+      font-family: var(--font-body);
+      z-index: 10000 !important;
+    }
+    #successModal.showing {
+      display: flex !important;
+    }
+    .submitting {
+      opacity: 0.7 !important;
+    }
+    #receiptContent button {
+      background: var(--caramel) !important;
+      color: white !important;
+      border: none !important;
+      padding: 0.75rem 1.5rem !important;
+      cursor: pointer !important;
+      font-size: 0.85rem !important;
+      margin-top: 1rem;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ===== MOBILE MENU TOGGLE ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--espresso);
+      transition: all 0.3s;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 8rem 2.5rem 3rem; }
+      .hero-right { min-height: 350px; }
+      .about { grid-template-columns: 1fr; }
+      .about-content { padding: 4rem 2.5rem; }
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, 200px);
+      }
+      .gallery-cell:first-child { grid-row: auto; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .visit-section { grid-template-columns: 1fr; }
+      .visit-map { min-height: 300px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      nav { padding: 1.2rem 2rem; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-left { padding: 7rem 1.5rem 3rem; }
+      .menu-section { padding: 5rem 1.5rem; }
+      .menu-grid { grid-template-columns: 1fr; }
+      .menu-tabs { flex-wrap: wrap; }
+      .gallery-section { padding: 5rem 1.5rem; }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 200px);
+      }
+      .testimonials { padding: 5rem 1.5rem; }
+      .contact-section { padding: 5rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .about-content { padding: 3rem 1.5rem; }
+      .visit-content { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <div class="nav-logo">Rubi <span>Cafe</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#visit">Visit Us</a></li>
+      <li><a href="#contact" class="nav-cta">Reserve a Table</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Established 2026 · Erode</div>
+      <h1 class="hero-title">
+        Rubi Cafe,<br>
+        <em>Your Erode Favorite.</em>
+      </h1>
+      <p class="hero-sub">
+        Where the warmth of filter kaapi meets the artistry of slow, intentional brewing — a celebration of South India's most beloved ritual.
+      </p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn-primary">Explore Menu</a>
+        <a href="#about" class="btn-ghost">Our Story</a>
+      </div>
+      <div class="hero-badge">📍 NGGO Colony, Erode — Open 7am to 10pm</div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-container">
+        <img src="https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Rubi Cafe Hero" style="width:100%;height:100%;object-fit:cover;opacity:0.6;">
+        <div class="hero-img-overlay"></div>
+      </div>
+      <div class="hero-float-tag">
+        <span class="big">4.9★</span>
+        <span class="small">Google Reviews</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item">Filter Kaapi <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Madras Filter Coffee <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Elaichi Chai <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Masala Dosa <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Rava Idli <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Pongal & Vada <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Cold Brew <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Bajji Platter <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Filter Kaapi <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Madras Filter Coffee <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Elaichi Chai <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Masala Dosa <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Rava Idli <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Pongal & Vada <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Cold Brew <span class="marquee-dot">✦</span></span>
+      <span class="marquee-item">Bajji Platter <span class="marquee-dot">✦</span></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <div class="about-visual-inner">
+        <div class="about-visual-pattern"></div>
+        <div class="about-icon-grid">
+          <div class="about-icon-card">
+            <div class="icon">☕</div>
+            <div class="label">Filter Kaapi</div>
+          </div>
+          <div class="about-icon-card">
+            <div class="icon">🫙</div>
+            <div class="label">Single Origin</div>
+          </div>
+          <div class="about-icon-card">
+            <div class="icon">🌿</div>
+            <div class="label">Organic Blends</div>
+          </div>
+          <div class="about-icon-card">
+            <div class="icon">🏆</div>
+            <div class="label">Award Winning</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="reveal">
+        <div class="section-label">Our Philosophy</div>
+        <h2 class="section-title">More than a café —<br>it's a <em>morning ritual.</em></h2>
+        <p class="section-body">
+          Rubi Cafe brings the warmth of authentic South Indian hospitality to Erode. Born from a passion for perfect coffee and traditional flavors, we create moments that feel like home.
+        </p>
+        <p class="section-body">
+          Sourcing the finest beans and ingredients, we craft every dish and drink with care in the heart of Erode — your neighborhood spot for comfort and flavor.
+        </p>
+        <div class="about-stats">
+          <div>
+            <div class="stat-num">12+</div>
+            <div class="stat-label">House Blends</div>
+          </div>
+          <div>
+            <div class="stat-num">8K+</div>
+            <div class="stat-label">Happy Patrons</div>
+          </div>
+          <div>
+            <div class="stat-num">6yrs</div>
+            <div class="stat-label">Of Craft</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <div class="menu-header reveal">
+      <div class="section-label">Crafted Daily</div>
+      <h2 class="section-title" style="color:var(--cream)">What's <em style="color:var(--gold)">Brewing</em></h2>
+    </div>
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="switchTab(event,'drinks')">Drinks</button>
+      <button class="menu-tab" onclick="switchTab(event,'food')">Food</button>
+      <button class="menu-tab" onclick="switchTab(event,'specials')">Chef's Specials</button>
+    </div>
+    <div class="menu-grid">
+
+      <!-- DRINKS TAB -->
+      <div class="menu-panel active" id="tab-drinks">
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Classic Filter Kaapi</div>
+            <div class="menu-item-price">₹60</div>
+          </div>
+          <div class="menu-item-desc">Traditional decoction with full-fat Aavin milk, served in brass dabara tumbler.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Nilgiri Cold Brew</div>
+            <div class="menu-item-price">₹180</div>
+          </div>
+          <div class="menu-item-desc">12-hour steep of estate Arabica over ice, with hints of dark chocolate and citrus.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Elaichi Chai</div>
+            <div class="menu-item-price">₹70</div>
+          </div>
+          <div class="menu-item-desc">Strong Assam tea simmered with green cardamom, ginger, and jaggery.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Badam Rose Milk</div>
+            <div class="menu-item-price">₹120</div>
+          </div>
+          <div class="menu-item-desc">Chilled full-fat milk with homemade almond paste and a whisper of Rooh Afza.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Decoction Espresso</div>
+            <div class="menu-item-price">₹140</div>
+          </div>
+          <div class="menu-item-desc">Double-strength South Indian decoction served as a concentrated espresso shot.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Masala Kaapi</div>
+            <div class="menu-item-price">₹90</div>
+          </div>
+          <div class="menu-item-desc">Filter coffee infused with our secret 7-spice blend — warming, complex, deeply aromatic.</div>
+          <span class="menu-item-tag">Chef's Pick 🌟</span>
+        </div>
+      </div>
+
+      <!-- FOOD TAB -->
+      <div class="menu-panel" id="tab-food">
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Ghee Masala Dosa</div>
+            <div class="menu-item-price">₹130</div>
+          </div>
+          <div class="menu-item-desc">Crisp fermented crepe with spiced potato filling, served with sambar and three chutneys.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Rava Idli & Vada Combo</div>
+            <div class="menu-item-price">₹120</div>
+          </div>
+          <div class="menu-item-desc">Soft semolina idlis with crispy urad dal vada, paired with hot sambar and coconut chutney.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Kanchipuram Idli</div>
+            <div class="menu-item-price">₹110</div>
+          </div>
+          <div class="menu-item-desc">Temple-style pepper and cumin spiced idli, steamed in banana leaf, served with ghee.</div>
+          <span class="menu-item-tag">Heritage Recipe</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Pongal & Sambar</div>
+            <div class="menu-item-price">₹100</div>
+          </div>
+          <div class="menu-item-desc">Creamy rice and moong dal khichdi tempered with ghee, black pepper, and cashews.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Onion Bajji Platter</div>
+            <div class="menu-item-price">₹90</div>
+          </div>
+          <div class="menu-item-desc">Golden-fried sliced onion fritters in spiced besan batter — best with evening kaapi.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Mini Tiffin Thali</div>
+            <div class="menu-item-price">₹200</div>
+          </div>
+          <div class="menu-item-desc">A curated spread: 2 idli, 1 dosa, pongal, sambar, rasam, and 3 chutneys. The full South Indian morning.</div>
+          <span class="menu-item-tag">Best Seller ⭐</span>
+        </div>
+      </div>
+
+      <!-- SPECIALS TAB -->
+      <div class="menu-panel" id="tab-specials">
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Kaapi Affogato</div>
+            <div class="menu-item-price">₹220</div>
+          </div>
+          <div class="menu-item-desc">A scoop of cardamom ice cream drowned in hot filter decoction — East meets West, beautifully.</div>
+          <span class="menu-item-tag">Weekend Only</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Nellikkai Rasam Soup</div>
+            <div class="menu-item-price">₹80</div>
+          </div>
+          <div class="menu-item-desc">Tangy amla-spiked rasam served as a warming broth — our wellness special.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Butter Mysore Pak</div>
+            <div class="menu-item-price">₹60</div>
+          </div>
+          <div class="menu-item-desc">Melt-in-mouth gram flour and pure ghee sweet — made fresh every morning, sold till it's gone.</div>
+          <span class="menu-item-tag">Limited Daily</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Millet Adai</div>
+            <div class="menu-item-price">₹140</div>
+          </div>
+          <div class="menu-item-desc">Wholesome mixed-millet crepe with avial and drumstick sambar — our healthy signature.</div>
+          <span class="menu-item-tag veg">Veg ✓</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Heritage Kaapi Blend Box</div>
+            <div class="menu-item-price">₹380</div>
+          </div>
+          <div class="menu-item-desc">Take home 250g of our signature house blend — whole bean or ground. A perfect gift.</div>
+          <span class="menu-item-tag">Retail</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-top">
+            <div class="menu-item-name">Sunday Brunch Set</div>
+            <div class="menu-item-price">₹350</div>
+          </div>
+          <div class="menu-item-desc">Full tiffin thali + your choice of any hot drink + dessert. Sundays 8am–12pm only.</div>
+          <span class="menu-item-tag">Sundays Only</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery-section" id="gallery">
+    <div class="gallery-header reveal">
+      <div class="section-label">Inside Our World</div>
+      <h2 class="section-title">A <em>glimpse</em> of Rubi Cafe.</h2>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-cell">
+        <div class="gallery-inner">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rubi Cafe Interior" class="gallery-bg">
+          <div class="gallery-overlay"></div>
+          <div class="gallery-label">Rubi Cafe Interior</div>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-inner">
+          <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Cafe Dishes" class="gallery-bg">
+          <div class="gallery-overlay"></div>
+          <div class="gallery-label">Fresh Dishes</div>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-inner">
+          <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Coffee Packaging" class="gallery-bg">
+          <div class="gallery-overlay"></div>
+          <div class="gallery-label">Our Specials</div>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-inner">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Seating Area" class="gallery-bg">
+          <div class="gallery-overlay"></div>
+          <div class="gallery-label">Cozy Seating</div>
+        </div>
+      </div>
+      <div class="gallery-cell">
+        <div class="gallery-inner">
+          <img src="https://images.pexels.com/photos/1591060/pexels-photo-1591060.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Outdoor Area" class="gallery-bg">
+          <div class="gallery-overlay"></div>
+          <div class="gallery-label">Outdoor Vibes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="reviews">
+    <div class="testimonials-header reveal">
+      <div class="section-label">Voices of Our Guests</div>
+      <h2 class="section-title">What Erode is <em>Saying</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The filter kaapi here takes me straight back to my grandmother's kitchen. The brass dabara, the exact ratio of decoction to milk — it's perfect. This is not a café, it's a time machine."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SR</div>
+          <div>
+            <div class="testimonial-name">Subramanian R.</div>
+            <div class="testimonial-role">Regular since Day 1 · RS Puram</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"I'm a Bangalorean married into Coimbatore, and Kaapi & Co. made this city feel like home. The masala dosa with sambar and three chutneys is genuinely the best I've had outside of Bengaluru."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PK</div>
+          <div>
+            <div class="testimonial-name">Priya K.</div>
+            <div class="testimonial-role">Food Blogger · @priya.eats.coimbatore</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Brought my team from Bangalore for a site visit and took them to Kaapi & Co. for breakfast. Now they want to relocate just for this place. The Heritage Kaapi Box they gifted us is already running out at the office."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">VM</div>
+          <div>
+            <div class="testimonial-name">Vikram M.</div>
+            <div class="testimonial-role">Tech Lead · Visiting from Bangalore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT -->
+  <section class="visit-section" id="visit">
+    <div class="visit-content">
+      <div class="reveal">
+        <div class="section-label">Find Us</div>
+        <h2 class="section-title" style="color:var(--cream)">Come, <em style="color:var(--gold)">sit a while.</em></h2>
+        <div class="hours-list">
+          <div class="hours-row">
+            <span class="hours-day">Monday – Friday</span>
+            <span class="hours-time">7:00 AM – 10:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Saturday</span>
+            <span class="hours-time">6:30 AM – 10:30 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Sunday</span>
+            <span class="hours-time">7:00 AM – 2:00 PM</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day">Public Holidays</span>
+            <span class="hours-closed">Call ahead</span>
+          </div>
+        </div>
+        <div class="visit-address">
+          <strong>📍 Address</strong>
+          <p>123 Rubi Street, NGGO Colony<br>Erode, Tamil Nadu 638001<br>India</p>
+        </div>
+        <div style="margin-top:1.5rem;display:flex;gap:1rem;">
+          <a href="tel:1245678901" style="display:inline-flex;align-items:center;gap:0.5rem;color:var(--gold);font-size:0.88rem;">📞 1245678901</a>
+          <a href="mailto:rubicafe@gmail.com" style="display:inline-flex;align-items:center;gap:0.5rem;color:var(--gold);font-size:0.88rem;">✉ rubicafe@gmail.com</a>
+        </div>
+      </div>
+    </div>
+    <div class="visit-map">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3907.452573228228!2d77.716099614745!3d11.343685991775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8548f1b3b3b3b%3A0x1234567890abcdef!2sRubi%20Cafe%2C%20NGGO%20Colony%2C%20Erode%2C%20Tamil%20Nadu%20380001!5e0!3m2!1sen!2sin!4v1728000000000!5m2!1sen!2sin" 
+        width="100%" 
+        height="100%" 
+        style="border:0; position:absolute; inset:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- CONTACT / RESERVATION -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div class="reveal">
+        <div class="section-label" style="text-align:center">Reserve Your Spot</div>
+        <h2 class="section-title">Book a <em>Table</em></h2>
+        <p class="contact-sub">For groups of 4 or more, we recommend booking ahead. We'll make sure your table is ready and your kaapi is waiting.</p>
+      </div>
+      <form class="contact-form reveal" onsubmit="handleFormSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" placeholder="Ananya Suresh" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" placeholder="+91 98400 00000" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Number of Guests</label>
+            <input type="number" class="form-input" placeholder="4" min="1" max="20" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Any Special Requests?</label>
+          <textarea class="form-textarea" placeholder="Dietary requirements, occasion, preferred seating..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Reserve My Table →</button>
+      </form>
+      <div class="contact-alt">
+        <div class="contact-link">
+          <div class="contact-link-icon">📞</div>
+          <div class="contact-link-label">Call Us</div>
+          <div class="contact-link-value">1245678901</div>
+        </div>
+        <div class="contact-link">
+          <div class="contact-link-icon">📱</div>
+          <div class="contact-link-label">WhatsApp</div>
+          <div class="contact-link-value">1456297689</div>
+        </div>
+        <div class="contact-link">
+          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-value">rubicafe@gmail.com</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">Rubi <span style="color:var(--caramel)">Cafe</span></div>
+        <p>Rubi Cafe — Erode's favorite spot for authentic flavors and warm hospitality. Come for the coffee, stay for the memories.</p>
+        <div class="footer-social">
+          <div class="social-btn">𝕏</div>
+          <div class="social-btn">📸</div>
+          <div class="social-btn">🍽</div>
+          <div class="social-btn">📘</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Explore</div>
+        <ul class="footer-links">
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#visit">Visit Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">From the Menu</div>
+        <ul class="footer-links">
+          <li><a href="#menu">Filter Kaapi</a></li>
+          <li><a href="#menu">Masala Dosa</a></li>
+          <li><a href="#menu">Cold Brew</a></li>
+          <li><a href="#menu">Tiffin Thali</a></li>
+          <li><a href="#menu">Kaapi Box (Gift)</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Visit</div>
+        <ul class="footer-links" style="gap:0.5rem">
+          <li><a href="#">42-A, 4th Street, Teachers Colony</a></li>
+          <li><a href="#">RS Puram, Coimbatore – 641002</a></li>
+          <li><a href="#" style="margin-top:0.5rem;display:block">Mon–Fri: 7am – 10pm</a></li>
+          <li><a href="#">Sat: 6:30am – 10:30pm</a></li>
+          <li><a href="#">Sun: 7am – 2pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 Rubi Cafe · NGGO Colony, Erode. All rights reserved.</p>
+      <p style="color:rgba(247,240,227,0.15)">Crafted with ☕ for Erode food lovers.</p>
+    </div>
+  </footer>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successModal" style="display:none;position:fixed;inset:0;background:rgba(26,18,8,0.85);z-index:500;align-items:center;justify-content:center;">
+  </div>
+
+  <!-- RECEIPT MODAL (Print Optimized) -->
+  <div id="receiptModal" style="display:none;position:fixed;inset:0;background:white;z-index:1000;align-items:center;justify-content:center;padding:2rem;max-width:100vw;max-height:100vh;overflow:auto;">
+    <div id="receiptContent" style="
+      max-width:500px;width:100%;background:white;color:var(--ink);
+      font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.4;
+      box-shadow:0 0 0.5rem rgba(0,0,0,0.1);
+    ">
+      <!-- Receipt will be populated by JS -->
+    </div>
+  </div>
+
+  <script>
+    // NAV SCROLL
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // MENU TABS
+    function switchTab(e, tab) {
+      document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+      e.target.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    // SCROLL REVEAL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Global booking data
+    let bookingData = {};
+
+    // FORM SUBMIT
+    function handleFormSubmit(e) {
+      console.log('🔥 FORM SUBMIT STARTED');
+      e.preventDefault();
+      
+      // Reset previous errors + show submitting state
+      e.target.querySelectorAll('.error, .submitting').forEach(el => el.remove());
+      const submitBtn = e.target.querySelector('.form-submit');
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.classList.add('submitting');
+      submitBtn.disabled = true;
+      
+      // Get form elements
+      const name = e.target.querySelector('input[type="text"]').value.trim();
+      const phone = e.target.querySelector('input[type="tel"]').value.trim();
+      const date = e.target.querySelector('input[type="date"]').value;
+      const guests = parseInt(e.target.querySelector('input[type="number"]').value);
+      const requests = e.target.querySelector('.form-textarea').value.trim();
+      
+      console.log('📋 Form data:', {name, phone, date, guests, requests});
+      
+      // Reset previous errors
+      e.target.querySelectorAll('.error').forEach(el => el.remove());
+      
+      let valid = true;
+      
+      // Validation with console logging
+      if (!name) {
+        console.log('❌ Validation failed: Name empty');
+        showError(e.target.querySelector('input[type="text"]'), 'Name is required');
+        valid = false;
+      }
+      if (!phone || !/^\d{10,12}$/.test(phone.replace(/\D/g, ''))) {
+        console.log('❌ Validation failed: Phone invalid', phone, phone.replace(/\D/g, ''));
+        showError(e.target.querySelector('input[type="tel"]'), 'Valid phone (10-12 digits) required');
+        valid = false;
+      }
+      if (!date || new Date(date) < new Date().toISOString().split('T')[0]) {
+        console.log('❌ Validation failed: Invalid date', date);
+        showError(e.target.querySelector('input[type="date"]'), 'Select a future date');
+        valid = false;
+      }
+      if (!guests || guests < 1 || guests > 20) {
+        console.log('❌ Validation failed: Guests invalid', guests);
+        showError(e.target.querySelector('input[type="number"]'), '1-20 guests only');
+        valid = false;
+      }
+      
+      console.log('✅ Validation result:', valid);
+      
+      if (valid) {
+        console.log('🎉 All validations passed, creating booking...');
+        
+        // Store booking data
+        bookingData = {
+          name,
+          phone,
+          date: new Date(date).toLocaleDateString('en-IN'),
+          guests,
+          requests: requests || 'None',
+          bookingId: 'BOOK-' + Date.now().toString().slice(-6),
+          depositPerGuest: 100,
+          total: guests * 100,
+          timestamp: new Date().toLocaleString('en-IN')
+        };
+        
+        console.log('📄 Booking created:', bookingData);
+        
+        // Show success modal with summary
+        setTimeout(() => {
+          console.log('🎊 Showing success modal');
+          const modal = document.getElementById('successModal');
+          modal.innerHTML = `
+            <div style="background:var(--cream);padding:3rem;max-width:420px;text-align:center;position:relative;z-index:1000;">
+              <div style="font-size:3rem;margin-bottom:1rem;">☕</div>
+              <h3 style="font-family:var(--font-display);font-size:1.8rem;color:var(--espresso);margin-bottom:0.8rem;">Table Reserved!</h3>
+              <p style="font-family:var(--font-accent);font-style:italic;color:var(--muted);line-height:1.7;margin-bottom:2rem;">
+                ${bookingData.guests} guests on ${bookingData.date}<br>
+                Advance Deposit: ₹${bookingData.total} (${bookingData.depositPerGuest}/guest)<br>
+                Ref: ${bookingData.bookingId}
+              </p>
+              <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                <button onclick="printReceipt()" style="background:var(--caramel);color:white;border:none;padding:0.8rem 2rem;cursor:pointer;font-family:var(--font-body);font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">🖨️ Print Receipt</button>
+                <button onclick="closeModal()" style="background:transparent;border:2px solid var(--caramel);color:var(--caramel);padding:0.8rem 2rem;cursor:pointer;font-family:var(--font-body);font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Close</button>
+              </div>
+            </div>
+          `;
+          modal.style.display = 'flex';
+          console.log('✅ Success modal displayed');
+        }, 800);
+      } else {
+        console.log('🚫 Form submission cancelled due to validation errors');
+        submitBtn.textContent = 'Reserve My Table →';
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('submitting');
+      }
+    }
+    
+    function showError(input, message) {
+      console.log('⚠️ Showing error:', message);
+      const error = document.createElement('div');
+      error.className = 'error';
+      error.style.cssText = 'color: #c4572a; font-size: 0.75rem; margin-top: 0.3rem; font-weight: 500; letter-spacing: 0.05em;';
+      error.textContent = message;
+      input.style.borderColor = '#c4572a';
+      input.parentNode.appendChild(error);
+      input.focus();
+    }
+    function closeModal() {
+      document.getElementById('successModal').style.display = 'none';
+    }
+
+    // PRINT RECEIPT FUNCTION
+    function printReceipt() {
+      const receipt = document.getElementById('receiptContent');
+      const data = bookingData;
+      
+      receipt.innerHTML = `
+        <div style="text-align:center;padding:1.5rem 1rem 1rem 1rem;border-bottom:2px solid #C4813A;margin-bottom:1rem;background:var(--cream);">
+          <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:#1A1208;letter-spacing:-0.02em;margin-bottom:0.2rem;">Rubi Cafe</div>
+          <div style="font-size:12px;color:#8B7355;letter-spacing:0.15em;text-transform:uppercase;">NGGO Colony, Erode · 1245678901</div>
+        </div>
+        
+        <div style="margin-bottom:1.5rem;">
+          <h3 style="font-size:18px;font-weight:600;margin-bottom:0.8rem;color:#1A1208;">Table Booking Receipt</h3>
+          <table style="width:100%;font-size:13px;border-collapse:collapse;">
+            <tr><td style="padding:0.3rem 0;font-weight:500;">Booking Ref:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.bookingId}</strong></td></tr>
+            <tr><td style="padding:0.3rem 0;">Date:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.date}</strong></td></tr>
+            <tr><td style="padding:0.3rem 0;">Time:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.timestamp}</strong></td></tr>
+            <tr><td style="padding:0.3rem 0;">Guests:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.guests}</strong></td></tr>
+            <tr><td style="padding:0.3rem 0;">Customer:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.name}</strong></td></tr>
+            <tr><td style="padding:0.3rem 0;">Phone:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.phone}</strong></td></tr>
+            ${data.requests !== 'None' ? `<tr><td style="padding:0.3rem 0;">Special Requests:</td><td style="padding:0.3rem 0;text-align:right;"><strong>${data.requests}</strong></td></tr>` : ''}
+          </table>
+        </div>
+        
+        <div style="margin-bottom:1.5rem;padding:1rem;background:#E8DDD0;border-radius:4px;border:1px solid #D4A853;">
+          <h4 style="font-size:16px;font-weight:600;margin-bottom:0.5rem;color:#1A1208;">Payment Summary</h4>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:0.3rem;">
+            <span>Advance Deposit (₹${data.depositPerGuest}/guest):</span>
+            <span style="text-align:right;">₹${data.total}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;padding-top:0.5rem;border-top:1px solid #8B7355;">
+            <span>Total Amount:</span>
+            <span style="text-align:right;">₹${data.total}</span>
+          </div>
+          <div style="font-size:11px;color:#8B7355;margin-top:0.8rem;text-align:center;">
+            Pay via UPI: rubicafe@paytm · Cards/Cash accepted at venue
+          </div>
+        </div>
+        
+        <div style="flex:1;"></div>
+        
+        <div style="font-size:11px;color:#8B7355;text-align:center;border-top:1px solid #E8DDD0;padding-top:1rem;">
+          <div>Valid for booking on ${data.date}</div>
+          <div>Balance payable on arrival · No show fee applies</div>
+          <div style="margin-top:0.5rem;">Thank you for choosing Rubi Cafe ☕</div>
+          <div style="margin-top:0.5rem;font-size:10px;">Reference: ${data.bookingId} · Printed: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}</div>
+        </div>
+        
+        <button onclick="window.print();return false;" style="
+          background:#C4813A !important;color:white !important;border:none !important;
+          padding:0.75rem 1.5rem !important;cursor:pointer !important;font-size:0.85rem !important;
+          margin-top:1rem !important;width:100%;letter-spacing:0.05em;text-transform:uppercase;
+          font-family:'DM Sans',sans-serif !important;
+        ">Print Receipt</button>
+      `;
+      
+      document.getElementById('receiptModal').style.display = 'flex';
+      
+      // Handle print dialog close
+      const afterPrint = () => {
+        document.getElementById('receiptModal').style.display = 'none';
+        window.removeEventListener('afterprint', afterPrint);
+      };
+      window.addEventListener('afterprint', afterPrint);
+    }
+
+    // MOBILE MENU
+    let mobileOpen = false;
+    function toggleMobileMenu() {
+      mobileOpen = !mobileOpen;
+      const links = document.querySelector('.nav-links');
+      if (mobileOpen) {
+        links.style.cssText = `
+          display: flex; flex-direction: column; position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0; background: var(--cream);
+          align-items: center; justify-content: center; gap: 2rem; z-index: 99;
+        `;
+        links.querySelectorAll('a').forEach(a => {
+          a.style.fontSize = '1.2rem'; a.style.opacity = '1';
+        });
+      } else {
+        links.style.cssText = '';
+      }
+    }
+
+    // Smooth menu close on link click
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (mobileOpen) toggleMobileMenu();
+      });
+    });
+  </script>
+</body>
+</html>
